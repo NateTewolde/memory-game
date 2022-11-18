@@ -1,0 +1,18 @@
+.card {
+  width: 100px;
+  height: 100px;
+  background-color: #61dafb;
+  border: 2px solid black;
+  font-size: 4rem;
+  display: grid;
+  place-items: center;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  background-color: orange;
+  gap: 24px;
+  padding: 64px;
+}
