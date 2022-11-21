@@ -1,17 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import uniqid from "uniqid";
 import Card from "./Card.js";
-
-// Steps:
-// 1. Lay out 12 cards from an array. DONE
-// 2. Make array shuffle cards when a card is clicked. DONE
-// 3. each time a card is clicked that cards id is added to a clicked array DONE
-// 4. Score keeper uses clicked Array to keep the score.
-// 5. When a card is clicked that matches the clicked array then game starts over
-// and score is added to completed scores array. highest from that array is shown
-
-//components -> App, Card, Scores
+import Score from "./Score.js";
 
 function App() {
   const [cards, setCards] = useState([
@@ -34,14 +25,33 @@ function App() {
   };
 
   const [clickedCards, setClickedCards] = useState([]);
+  const [clickedCard, setClickedCard] = useState("");
   const handleCardClick = (e) => {
+    setClickedCard(e);
     setClickedCards([...clickedCards, e.target.id]);
     setCards(shuffleArray(cards));
   };
 
+  const [bestScore, setBestScore] = useState(0);
+  useEffect(() => {
+    const updateScores = () => {
+      if (
+        clickedCards
+          .slice(0, clickedCards.length - 1)
+          .includes(clickedCards[clickedCards.length - 1])
+      ) {
+        if (clickedCards.length - 1 > bestScore) {
+          setBestScore(clickedCards.length - 1);
+        }
+        setClickedCards([]);
+      }
+    };
+    updateScores();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clickedCard]);
+
   return (
     <div className="wrapper">
-      <div onClick={(e) => handleCardClick(e)}>test div</div>
       <h1>Card Matching Game</h1>
       <div className="cards-container">
         {cards.map((card) => {
@@ -54,6 +64,7 @@ function App() {
           );
         })}
       </div>
+      <Score currentScore={clickedCards.length} bestScore={bestScore} />
     </div>
   );
 }
