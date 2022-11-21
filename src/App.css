@@ -16,3 +16,10 @@
   gap: 24px;
   padding: 64px;
 }
+
+.score {
+  padding: 16px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
